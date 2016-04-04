@@ -1,5 +1,9 @@
 # ConfigFiles
 
+[Download JAR](https://github.com/FMR7/ConfigFiles/raw/master/dist/ConfigFiles.jar)
+
+[Download source](https://github.com/FMR7/ConfigFiles/archive/master.zip)
+
 ###import com.persistence.ConfigFiles;
 
 ####Create the properties.
