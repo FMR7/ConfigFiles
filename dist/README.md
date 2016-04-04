@@ -17,7 +17,11 @@ newProperties.setProperty("pass", "12345");
 ConfigFiles cf = new ConfigFiles();
 
 ####Create a new config file. 
-//1-Filename without extension. 2-Properties. 3-Comments.
+1-Filename without extension. 
+
+2-Properties. 
+
+3-Comments.
 
 cf.newFile("db_data", newProperties, "DataBase configuration.");
 
