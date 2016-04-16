@@ -30,6 +30,7 @@ public class ConfigFiles {
      */
     public ConfigFiles() {
         this.pv_fileExt = "conf";
+        this.pv_ppts = new Properties();
     }
     
     /**
