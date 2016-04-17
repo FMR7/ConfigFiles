@@ -8,13 +8,15 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Easier config file managament.
- * @version 0.1
+ * @version 0.2
  * @author Fernando
  */
 public class ConfigFiles {
@@ -47,7 +49,7 @@ public class ConfigFiles {
         
         System.out.println("");
         if ((pv_confFile.exists()) && (!pv_confFile.isDirectory())){
-            System.out.println("WARN: newFile(); \nConfig file already exists, " + this.pv_confFile.getName() + "!!! Can't overwrite it!!!");
+            System.out.println("WARN: newFile(); \nConfig file already exists, " + this.pv_confFile.getName() + "!!! Can't overwrite it!!!\n");
         }else{
             System.out.print("Creating config file...");
             BufferedWriter writer = null;
@@ -100,7 +102,66 @@ public class ConfigFiles {
                 Logger.getLogger(ConfigFiles.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
-            System.out.println("WARN: loadFile(); \nConfig file, " + this.pv_confFile.getName() + " not found!!! Can't load it!!!");
+            System.out.println("WARN: loadFile(); \nConfig file, " + this.pv_confFile.getName() + " not found!!! Can't load it!!!\n");
+            this.pv_ppts = null;
+        }
+        return(this.pv_ppts);
+    }
+    
+    /**
+     * Returns the Properties object from the file, if exists.
+     * @param l_name File name, without extension.
+     * @param debug If true, shows the keys and the values.
+     * @return Properties object to read the properties or NULL if don't exists.
+     * @since 0.2
+     */
+    public synchronized Properties loadFile(String l_name, boolean debug){
+        this.pv_fileName = l_name;
+        this.pv_confFile = new File(this.pv_fileName + "." + this.pv_fileExt);
+        
+        System.out.println("");
+        if ((pv_confFile.exists()) && (!pv_confFile.isDirectory())){
+            try {
+                System.out.print("Loading config file...");
+                FileInputStream fis = new FileInputStream(pv_confFile);
+                BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+                
+                this.pv_ppts.load(in);
+                System.out.println("Loaded.");
+                System.out.println("File Location: " + pv_confFile.getCanonicalPath() + "\n");
+                in.close();
+                fis.close();
+                if(debug){
+                    Set<Object> keySet = this.pv_ppts.keySet();
+                    Collection<Object> valueSet = this.pv_ppts.values();
+                    System.out.println("PROPERTIES:");
+                    
+                    //Get keys
+                    String[] keys = new String[keySet.size()];
+                    int counter = 0;
+                    for(Object k: keySet){
+                        keys[counter] = k.toString();
+                        counter++;
+                    }
+                    
+                    //Get values
+                    String[] values = new String[valueSet.size()];
+                    counter = 0;
+                    for(Object v: valueSet){
+                        values[counter] = v.toString();
+                        counter++;
+                    }
+                    //Show keys and values
+                    for(int i = 0; i < keys.length; i++){
+                        System.out.println(keys[i] + "=" + values[i]);
+                    }
+                    System.out.println("");
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(ConfigFiles.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            System.out.println("WARN: loadFile(); \nConfig file, " + this.pv_confFile.getName() + " not found!!! Can't load it!!!\n");
             this.pv_ppts = null;
         }
         return(this.pv_ppts);
@@ -126,7 +187,7 @@ public class ConfigFiles {
                 b = true;
                 System.out.println("Deleted.");
             }catch(Exception e){
-                System.out.println("WARN: deleteFile(); \nFile not found or opened, " + this.pv_confFile.getName() + "!!!");
+                System.out.println("WARN: deleteFile(); \nFile not found or opened, " + this.pv_confFile.getName() + "!!!\n");
                 e.printStackTrace();
             }
         }
@@ -171,7 +232,7 @@ public class ConfigFiles {
             }
             
         }else{
-            System.out.println("WARN: updateFile(); \nConfig file, " + this.pv_confFile.getName() + " not found!!! Can't update it!!!");
+            System.out.println("WARN: updateFile(); \nConfig file, " + this.pv_confFile.getName() + " not found!!! Can't update it!!!\n");
         }
     }
     
