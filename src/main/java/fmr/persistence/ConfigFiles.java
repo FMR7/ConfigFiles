@@ -21,6 +21,10 @@ import java.util.logging.Logger;
  */
 public class ConfigFiles {
 
+    public static void main(String[] args){
+
+    }
+
     private String pv_fileName;
     private final String pv_fileExt;
     private File pv_confFile;
@@ -34,7 +38,7 @@ public class ConfigFiles {
         this.pv_fileExt = "conf";
         this.pv_ppts = new Properties();
     }
-    
+
     /**
      * Creates a new config file and write the properties of l_prop into it.
      * @param l_name File name, without extension.
@@ -46,7 +50,7 @@ public class ConfigFiles {
         this.pv_fileName = l_name;
         this.pv_confFile = new File(this.pv_fileName + "." + this.pv_fileExt);
         this.pv_ppts = l_prop;
-        
+
         System.out.println("");
         if ((pv_confFile.exists()) && (!pv_confFile.isDirectory())){
             System.out.println("WARN: newFile(); \nConfig file already exists, " + this.pv_confFile.getName() + "!!! Can't overwrite it!!!\n");
@@ -58,7 +62,7 @@ public class ConfigFiles {
                 FileOutputStream fileOut = new FileOutputStream(pv_confFile);
 
                 this.pv_ppts.store(fileOut, l_tag);
-                
+
                 System.out.println("Created.");
                 System.out.println("Config File Location: " + pv_confFile.getCanonicalPath() + "\n");
             } catch (Exception e) {
@@ -75,7 +79,7 @@ public class ConfigFiles {
             }
         }
     }
-    
+
     /**
      * Returns the Properties object from the file, if exists.
      * @param l_name File name, without extension.
@@ -85,14 +89,14 @@ public class ConfigFiles {
     public synchronized Properties loadFile(String l_name){
         this.pv_fileName = l_name;
         this.pv_confFile = new File(this.pv_fileName + "." + this.pv_fileExt);
-        
+
         System.out.println("");
         if ((pv_confFile.exists()) && (!pv_confFile.isDirectory())){
             try {
                 System.out.print("Loading config file...");
                 FileInputStream fis = new FileInputStream(pv_confFile);
                 BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-                
+
                 this.pv_ppts.load(in);
                 System.out.println("Loaded.");
                 System.out.println("File Location: " + pv_confFile.getCanonicalPath() + "\n");
@@ -107,7 +111,7 @@ public class ConfigFiles {
         }
         return(this.pv_ppts);
     }
-    
+
     /**
      * Returns the Properties object from the file, if exists.
      * @param l_name File name, without extension.
@@ -118,14 +122,14 @@ public class ConfigFiles {
     public synchronized Properties loadFile(String l_name, boolean debug){
         this.pv_fileName = l_name;
         this.pv_confFile = new File(this.pv_fileName + "." + this.pv_fileExt);
-        
+
         System.out.println("");
         if ((pv_confFile.exists()) && (!pv_confFile.isDirectory())){
             try {
                 System.out.print("Loading config file...");
                 FileInputStream fis = new FileInputStream(pv_confFile);
                 BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-                
+
                 this.pv_ppts.load(in);
                 System.out.println("Loaded.");
                 System.out.println("File Location: " + pv_confFile.getCanonicalPath() + "\n");
@@ -135,7 +139,7 @@ public class ConfigFiles {
                     Set<Object> keySet = this.pv_ppts.keySet();
                     Collection<Object> valueSet = this.pv_ppts.values();
                     System.out.println("PROPERTIES:");
-                    
+
                     //Get keys
                     String[] keys = new String[keySet.size()];
                     int counter = 0;
@@ -143,7 +147,7 @@ public class ConfigFiles {
                         keys[counter] = k.toString();
                         counter++;
                     }
-                    
+
                     //Get values
                     String[] values = new String[valueSet.size()];
                     counter = 0;
@@ -166,7 +170,7 @@ public class ConfigFiles {
         }
         return(this.pv_ppts);
     }
-    
+
     /**
      * Deletes a config file.
      * @param l_name File name, without extension.
@@ -175,10 +179,10 @@ public class ConfigFiles {
      */
     public synchronized boolean deleteFile(String l_name){
         boolean b = false;
-        
+
         this.pv_fileName = l_name;
         this.pv_confFile = new File(this.pv_fileName + "." + this.pv_fileExt);
-        
+
         System.out.println("");
         if ((pv_confFile.exists()) && (!pv_confFile.isDirectory())){
             try{
@@ -193,7 +197,7 @@ public class ConfigFiles {
         }
         return b;
     }
-    
+
     /**
      * Updates a config file and write the properties of l_prop into it.
      * @param l_name File name, without extension.
@@ -205,7 +209,7 @@ public class ConfigFiles {
         this.pv_fileName = l_name;
         this.pv_confFile = new File(this.pv_fileName + "." + this.pv_fileExt);
         this.pv_ppts = l_prop;
-        
+
         System.out.println("");
         if ((pv_confFile.exists()) && (!pv_confFile.isDirectory())){
             System.out.print("Updating config file...");
@@ -215,7 +219,7 @@ public class ConfigFiles {
                 FileOutputStream fileOut = new FileOutputStream(pv_confFile);
 
                 this.pv_ppts.store(fileOut, l_tag);
-                
+
                 System.out.println("Updated.");
                 System.out.println("Config File Location: " + pv_confFile.getCanonicalPath() + "\n");
             } catch (Exception e) {
@@ -230,10 +234,9 @@ public class ConfigFiles {
                 }
 
             }
-            
+
         }else{
             System.out.println("WARN: updateFile(); \nConfig file, " + this.pv_confFile.getName() + " not found!!! Can't update it!!!\n");
         }
     }
-    
 }
